@@ -32,6 +32,15 @@
             background-color: #ddd;
           }
           
+          .app:hover .options {
+            background-color: #ddd;
+          }
+          
+          .image {
+            width: 128px;
+            height: 128px;
+          }
+          
           br {
             clear: both;
           }
@@ -50,6 +59,7 @@
               
               if(extInf.isApp && extInf.enabled) {      
                 var app = document.createElement("div");
+                
      
                 var img = new Image();
                 img.className = "image";
