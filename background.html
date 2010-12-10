@@ -6,16 +6,19 @@
        We only want to monitor updates to apps so the only known way to do this 
        at the moment is to listen as apps are uninstalled and then re-installed
        
-       On oninstall check the version number,
+       On oninstall checks the version number and if it is has a version number 
+       different from the one recorded at the start of the extension then it 
+       is considered an update
        */
        
-      var uninstalled = {};
       var apps = {};
+      
+    
       
       var onInstall = function(ext) {
         var id = ext.id;
         
-        if(apps[id] != ext.version) {
+        if(apps[id] != ext.version && ext.isApp) {
           // Fire off a notification
           if(localStorage["notification"] == "true") {
             var notif = webkitNotifications.createNotification(
@@ -50,8 +53,6 @@
         }
       };
       
-      
-      //chrome.management.onUninstalled.addListener(onUninstall);
       chrome.management.onInstalled.addListener(onInstall);
       chrome.management.getAll(getAllCallback);
       
