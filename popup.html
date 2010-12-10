@@ -1,21 +1,31 @@
     <html>
       <head>
         <style>
+          body {
+            margin: 0;
+            padding: 0;
+            width: 328px;
+            overflow-x: hidden;
+          }
+        
+        
           #apps {
-            min-width: 336px;
-            width: 336px;
           }
           
           .app {
             float: left;
             width: 128px;
-            margin: 10px;
+            margin: 10px 10px 10px 0px;
             padding: 10px;
             text-align: center;
             font-family: Arial;
             border-radius: 10px;
             -webkit-transition: background-color 0.2s ease-in-out;
             cursor: pointer;
+          }
+          
+          .app:nth-of-type(2n) {
+            margin-right: 0;
           }
           
           .app:hover {
