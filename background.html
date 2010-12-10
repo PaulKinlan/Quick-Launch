@@ -1,0 +1,73 @@
+<html>
+  <head>
+    <script>
+    
+      /*
+       We only want to monitor updates to apps so the only known way to do this 
+       at the moment is to listen as apps are uninstalled and then re-installed
+       
+       On oninstall check the version number,
+       */
+       
+      var uninstalled = {};
+      var apps = {};
+      
+      var onUninstall = function(id) {
+        uninstalled[id] = true;
+        delete apps[id];
+      };
+      
+      var onInstall = function(ext) {
+        var id = ext.id;
+        
+        if(apps[id] && apps[id] != ext.version) {
+          // Fire off a notification
+          if(localStorage["notification"] == "true") {
+            var notif = webkitNotifications.createNotification(
+              "go.png", 
+              "Extension Updated", 
+              ext.name
+            );
+            notif.show();
+            
+            setTimeout(5000, function() {
+              notif.cancel();
+            });
+          } 
+          else {
+            chrome.browserAction.setText("New"); // <-- Need to localize
+          }
+        }
+        
+        apps[id] = ext.version;
+        
+        if(uninstalled[id]) {
+          // an app was uninstalled and then installed, it is likely a version update
+          delete uninstalled[id];
+        }
+      };
+      
+      /*
+        Track all the version numbers
+      */
+      var getAllCallback = function(exts) {
+        for(var i in exts) {
+          var ext = exts[i];
+          
+          if(ext.isApp) {
+            apps[ext.id] = ext.version;
+          }
+        }
+      };
+      
+      
+      chrome.management.onUninstalled.addListener(onUninstall);
+      chrome.management.onInstalled.addListener(onInstall);
+      chrome.management.getAll(getAllCallback);
+      
+
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
