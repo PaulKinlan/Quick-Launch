@@ -2,7 +2,28 @@
       <head>
         <style>
           #apps {
+            min-width: 336px;
+            width: 336px;
+          }
+          
+          .app {
+            float: left;
+            width: 128px;
             margin: 10px;
+            padding: 10px;
+            text-align: center;
+            font-family: Arial;
+            border-radius: 10px;
+            -webkit-transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+          }
+          
+          .app:hover {
+            background-color: #ddd;
+          }
+          
+          br {
+            clear: both;
           }
         </style>
         <script>
@@ -12,10 +33,12 @@
           
           var getAllCallback = function(list) {
             var apps = document.getElementById("apps");
+            var counter = 0;
             for(var i in list) {
               // we don't want to do anything with extensions yet.
               var extInf = list[i];
-              if(extInf.isApp && extInf.enabled) {
+              
+              if(extInf.isApp && extInf.enabled) {      
                 var app = document.createElement("div");
      
                 var img = new Image();
@@ -35,6 +58,13 @@
                 app.appendChild(img);
                 app.appendChild(name);
                 apps.appendChild(app);
+                
+                if(counter % 2) {
+                  var row = document.createElement("br");
+                  apps.appendChild(row);
+                }
+                counter ++;
+                
               }
             }
           };
