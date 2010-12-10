@@ -47,6 +47,7 @@
         </style>
         <script>
           document.addEventListener("DOMContentLoaded", function() {
+            chrome.browserAction.setBadgeText("");
             chrome.management.getAll(getAllCallback);
           });
           
