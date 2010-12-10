@@ -1,0 +1,11 @@
+{
+    "name": "Quick Launch",
+    "description": "Launches apps, the quick way!",
+    "version": "0.0.0.1",
+    "permissions" : ["management"],
+    "browser_action" : {
+        "default_icon" : "go.png",
+        "default_title" : "Quick Launch",
+        "default_popup": "popup.html"
+    }
+}
