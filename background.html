@@ -12,15 +12,10 @@
       var uninstalled = {};
       var apps = {};
       
-      var onUninstall = function(id) {
-        uninstalled[id] = true;
-        delete apps[id];
-      };
-      
       var onInstall = function(ext) {
         var id = ext.id;
         
-        if(apps[id] && apps[id] != ext.version) {
+        if(apps[id] != ext.version) {
           // Fire off a notification
           if(localStorage["notification"] == "true") {
             var notif = webkitNotifications.createNotification(
@@ -35,16 +30,11 @@
             });
           } 
           else {
-            chrome.browserAction.setBadgeText("New"); // <-- Need to localize
+            chrome.browserAction.setBadgeText({"text" :"New" }); // <-- Need to localize
           }
         }
         
         apps[id] = ext.version;
-        
-        if(uninstalled[id]) {
-          // an app was uninstalled and then installed, it is likely a version update
-          delete uninstalled[id];
-        }
       };
       
       /*
@@ -61,7 +51,7 @@
       };
       
       
-      chrome.management.onUninstalled.addListener(onUninstall);
+      //chrome.management.onUninstalled.addListener(onUninstall);
       chrome.management.onInstalled.addListener(onInstall);
       chrome.management.getAll(getAllCallback);
       
